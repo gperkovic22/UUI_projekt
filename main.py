@@ -2,10 +2,9 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
 from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.metrics import classification_report
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import Model
 from tensorflow.image import resize
@@ -30,7 +29,7 @@ X_treniranje_norm = x_treniranje/225
 X_testiranje_norm = x_testiranje/255
 
 bazni_model = MobileNetV2(
-    input_shape=(32,32,3),
+    input_shape=(96,96,3),
     include_top=False,
     weights='imagenet'
 )
@@ -52,8 +51,8 @@ model.summary()
 
 early_stop = EarlyStopping(monitor='val_loss',patience=3)
 model.fit(X_treniranje_norm, y_kat_treniranje,
-          epochs=2,
-          batch_size=128,
+          epochs=10,
+          #batch_size=,
           validation_data=(X_testiranje_norm, y_kat_testiranje),
           callbacks=[early_stop])
 
